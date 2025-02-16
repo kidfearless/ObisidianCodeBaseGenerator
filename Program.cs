@@ -12,10 +12,10 @@ var ProviderKey = "Gemini";  // Or "Anthropic" or "Gemini"
 
 Console.WriteLine("Provide a search pattern to match file names on (e.g. *.cs)");
 
-var searchPattern = "*.cs" ?? Console.ReadLine()!;
+var searchPattern = Console.ReadLine()!;
 
-var currentDirectory = @"C:\Users\kidfearless\Documents\s&box projects\sbox-hc1";
-
+var currentDirectory = Directory.GetCurrentDirectory();
+Console.WriteLine($"Current Working Directory: {currentDirectory}");
 var provider = Provider.GetProvider(ProviderKey, apiKey);
 var models = await provider.GetModelsAsync();
 Console.WriteLine("Select your model (e.g. 1)");
@@ -33,7 +33,7 @@ var outputFolder = Path.Join(currentDirectory, "Obsidian");
 var info = Directory.CreateDirectory(outputFolder);
 
 // only allow processing of n items at a time.
-var semaphore = new SemaphoreSlim(1);
+var semaphore = new SemaphoreSlim(4);
 List<Task> all = [];
 foreach (var file in files)
 {
