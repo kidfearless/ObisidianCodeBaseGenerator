@@ -93,7 +93,7 @@ public abstract record Provider
                 throw new Exception("No messages to send");
             }
 
-            OpenAI.Chat.ChatClient client = new(ChatModel.Model, new(ApiKey), Options);
+            OpenAI.Chat.ChatClient client = new(ChatModel.Model, new(ApiKey!), Options);
             var messages = Messages.Select<Message, OpenAI.Chat.ChatMessage>(m => m switch
             {
                 UserMessage => new OpenAI.Chat.UserChatMessage(m.Content),
